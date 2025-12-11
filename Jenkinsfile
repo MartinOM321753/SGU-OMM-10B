@@ -40,7 +40,7 @@ pipeline {
         stage('Construyendo y desplegando servicios...') {
             steps {
                 bat '''
-                    docker compose -p sgu-omm-10b --build -d
+                    docker compose -p sgu-omm-10b up --build -d
                 '''
             }
         }
