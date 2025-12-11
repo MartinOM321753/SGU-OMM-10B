@@ -1,63 +1,60 @@
 pipeline {
     agent any
-    environment {
-        PATH = "/usr/local/bin:${env.PATH}"
-    }
 
     stages {
-        
-        // Para detener los servicios o en todo caso hacer caso omiso
-        stage('Deteniendo los servicios...') {
+        // Parar los servicios existentes
+        stage('Parando los servicios...') {
             steps {
-                sh '''
-                    docker compose -p SGU-OMM-10B down || true
-                '''
-            }
-        }
-        
-        // Eliminar las imagenes creadas por este proyecto
-        stage('Eliminando imagenes anteriores...') {
-            steps {
-                sh '''
-                    IMAGES=$(docker images --filter "label=com.docker.compose.project=SGU-OMM-10B" -q)
-                    if [ -n "$IMAGES" ]; then
-                        docker rmi -f $IMAGES
-                    else
-                        echo "No hay imagenes por eliminar"
-                    fi
+                bat '''
+                    docker compose -p SGU-OMM-10B up down || exit /b 0
                 '''
             }
         }
 
-        // Del recurso SCM configurado en el job jala el repo
-        stage('Obteniendo actualizacion...') {
+        // Eliminar imágenes creadas por este proyecto
+        stage('Eliminando imágenes anteriores...') {
+            steps {
+                bat '''
+                    for /f "tokens=*" %%i in ('docker images --filter "label=com.docker.compose.project=SGU-OMM-10B" -q') do (
+                        docker rmi -f %%i
+                    )
+                    if errorlevel 1 (
+                        echo No hay imagenes por eliminar
+                    ) else (
+                        echo Imagenes eliminadas correctamente
+                    )
+                '''
+            }
+        }
+
+        // Clonar o actualizar el repositorio configurado en el job
+        stage('Obteniendo actualización...') {
             steps {
                 checkout scm
             }
         }
 
+        // Construir y levantar los servicios
         stage('Construyendo y desplegando servicios...') {
             steps {
-                sh '''
+                bat '''
                     docker compose up --build -d
                 '''
             }
         }
-
     }
 
     post {
         success {
-            echo "Pipeline ejecutado con exito"
+            echo 'Pipeline ejecutado con éxito'
         }
 
         failure {
-            echo "Error al ejecutar el Pipeline"
+            echo 'Hubo un error al ejecutar el pipeline'
         }
 
         always {
-            echo "Pipeline finalizado"
+            echo 'Pipeline finalizado'
         }
     }
-
 }
