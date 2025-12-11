@@ -1,13 +1,14 @@
 pipeline {
     agent any
-
+    // mejor aún si tienes label windows:
+    // agent { label 'windows' }
 
     stages {
         // Parar los servicios existentes
         stage('Parando los servicios...') {
             steps {
                 bat '''
-                    docker compose -p SGU-OMM-10B down || exit /b 0
+                    docker compose -p sgu-omm-10b down || exit /b 0
                 '''
             }
         }
@@ -16,7 +17,7 @@ pipeline {
         stage('Eliminando imágenes anteriores...') {
             steps {
                 bat '''
-                    for /f "tokens=*" %%i in ('docker images --filter "label=com.docker.compose.project=SGU-OMM-10B" -q') do (
+                    for /f "tokens=*" %%i in ('docker images --filter "label=com.docker.compose.project=sgu-omm-10b" -q') do (
                         docker rmi -f %%i
                     )
                     if errorlevel 1 (
@@ -39,7 +40,7 @@ pipeline {
         stage('Construyendo y desplegando servicios...') {
             steps {
                 bat '''
-                    docker compose -p SGU-OMM-10B up --build -d
+                    docker compose -p sgu-omm-10b --build -d
                 '''
             }
         }
