@@ -1,12 +1,13 @@
 pipeline {
     agent any
 
+
     stages {
         // Parar los servicios existentes
         stage('Parando los servicios...') {
             steps {
                 bat '''
-                    docker compose -p SGU-OMM-10B up down || exit /b 0
+                    docker compose -p SGU-OMM-10B down || exit /b 0
                 '''
             }
         }
@@ -38,7 +39,7 @@ pipeline {
         stage('Construyendo y desplegando servicios...') {
             steps {
                 bat '''
-                    docker compose up --build -d
+                    docker compose -p SGU-OMM-10B up --build -d
                 '''
             }
         }
