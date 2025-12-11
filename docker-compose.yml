@@ -1,0 +1,64 @@
+services:
+  database: 
+    image: mysql:8
+    container_name: sgu-database
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sguDatabase
+    ports:
+      - "3307:3306"
+    volumes:
+      - sgu-volume:/var/lib/mysql
+    networks:
+      - sgu-net
+    restart: unless-stopped
+  frontend:
+    image: client:1.0-sgu
+    build:
+      context: ./client
+      args:
+        API_HOST: localhost
+        API_PORT: 8081
+        API_BASE: /api
+        API_PROTOCOL: https
+    container_name: sgu-frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - sgu-net
+    volumes:
+      - certbot-conf:/etc/letsencrypt:ro
+    depends_on:
+      - database
+  backend:
+    image: server:1.0-sgu
+    build:
+      context: ./server
+    container_name: sgu-backend
+    environment:
+      SERVER_PORT: 8080
+      DB_USER: root
+      DB_HOST: database
+      DB_PORT: 3306
+      DB_NAME: sguDatabase
+      DB_PASS: root
+      SERVER_SSL_ENABLED: true
+      SERVER_SSL_KEYSTORE_PATH: /etc/letsencrypt/live/localhost/keystore.p12
+      SERVER_SSL_KEYSTORE_PASS: changeit
+    ports:
+      - "8081:8080"
+    networks:
+      - sgu-net
+    volumes:
+      - certbot-conf:/etc/letsencrypt:ro
+    depends_on:
+      - frontend
+volumes:
+  sgu-volume:
+    external: true
+  certbot-conf:
+    external: true
+
+networks:
+  sgu-net:
+    external: true

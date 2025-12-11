@@ -1,0 +1,318 @@
+/* Reset suave */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  background: #f3f4f6; /* gris muy claro */
+  color: #111827;      /* gris oscuro para texto */
+}
+
+/* Layout principal */
+.app {
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.app-header-text h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #111827;
+}
+
+.app-header-text p {
+  margin: 4px 0 0;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+/* Contenido */
+.app-content {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Card general */
+.card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px 20px 16px;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.06); /* sombra muy suave */
+  border: 1px solid #e5e7eb;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #111827;
+}
+
+.badge {
+  background: #f3f4f6;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  color: #4b5563;
+  border: 1px solid #e5e7eb;
+}
+
+/* Tabla */
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 4px;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.users-table thead {
+  background: #f9fafb;
+}
+
+.users-table th,
+.users-table td {
+  padding: 10px 12px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.users-table th {
+  font-weight: 600;
+  color: #4b5563;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.users-table tbody tr:nth-child(even) {
+  background: #ffffff;
+}
+
+.users-table tbody tr:nth-child(odd) {
+  background: #f9fafb;
+}
+
+.users-table tbody tr:hover {
+  background: #e5e7eb;
+}
+
+.users-table td {
+  border-bottom: 1px solid #e5e7eb;
+  color: #111827;
+}
+
+.users-table .col-actions {
+  text-align: right;
+}
+
+.empty {
+  text-align: center;
+  padding: 18px 0;
+  color: #6b7280;
+}
+
+/* Botones base (simples, grises) */
+.btn {
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  color: #111827;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease,
+    opacity 0.12s ease;
+}
+
+/* Botón “primario” (igual gris, solo un poco más marcado) */
+.btn-primary {
+  background: #e5e7eb;
+  border-color: #d1d5db;
+  color: #111827;
+}
+
+.btn-primary:hover {
+  background: #d1d5db;
+}
+
+/* Secundario / ghost */
+.btn-ghost {
+  background: #ffffff;
+  border-color: #d1d5db;
+  color: #4b5563;
+}
+
+.btn-ghost:hover {
+  background: #f3f4f6;
+}
+
+/* Peligro (eliminar) – sencillo, no llamativo */
+.btn-danger {
+  background: #f9fafb;
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+
+.btn-danger:hover {
+  background: #fee2e2;
+}
+
+/* Deshabilitados */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Acciones en la tabla */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+/* Estados */
+.status {
+  max-width: 1100px;
+  margin: 0 auto 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.status-info {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.status-error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 50;
+}
+
+.modal {
+  width: 100%;
+  max-width: 460px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px 22px 18px;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);
+  border: 1px solid #e5e7eb;
+}
+
+.modal h2 {
+  margin: 0 0 14px;
+  font-size: 1.1rem;
+  color: #111827;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  gap: 4px;
+  color: #374151;
+}
+
+.modal-form input {
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  padding: 8px 10px;
+  outline: none;
+  background: #ffffff;
+  color: #111827;
+  font-size: 0.9rem;
+}
+
+.modal-form input::placeholder {
+  color: #9ca3af;
+}
+
+.modal-form input:focus {
+  border-color: #9ca3af;
+}
+
+/* Botones del modal */
+.modal-actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Responsivo */
+@media (max-width: 640px) {
+  .app {
+    padding: 16px;
+  }
+
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card {
+    padding: 16px 12px;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 8px;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
